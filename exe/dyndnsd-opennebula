@@ -18,6 +18,7 @@ if OpenNebula.is_error?(rc)
   exit 1
 end
 
+users = {}
 users['users'] = {}
 
 userpool.each do |user|
