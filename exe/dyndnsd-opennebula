@@ -4,6 +4,8 @@
 
 require 'opennebula'
 require 'yaml'
+require 'tempfile'
+require 'fileutils'
 require 'dyndnsd/opennebula/settings'
 
 include OpenNebula
@@ -32,4 +34,13 @@ userpool.each do |user|
   }
 end
 
-File.open(Dyndnsd::Opennebula::Settings.outfile, 'w') { |file| file.write(users.to_yaml) }
+begin
+  file = Tempfile.new('dyndnsd-users')
+  File.open(file, 'w') { |f| f.write(users.to_yaml) }
+  FileUtils.cp file.path, Dyndnsd::Opennebula::Settings.outfile
+ensure
+  if file
+    file.close
+    file.unlink
+  end
+end
