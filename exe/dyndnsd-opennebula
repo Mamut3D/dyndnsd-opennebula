@@ -8,14 +8,12 @@ require 'tempfile'
 require 'fileutils'
 require 'dyndnsd/opennebula/settings'
 
-include OpenNebula
+client = ::OpenNebula::Client.new(Dyndnsd::Opennebula::Settings.credentials, Dyndnsd::Opennebula::Settings.endpoint)
 
-client = Client.new(Dyndnsd::Opennebula::Settings.credentials, Dyndnsd::Opennebula::Settings.endpoint)
-
-userpool = UserPool.new(client)
+userpool = ::OpenNebula::UserPool.new(client)
 
 rc = userpool.info
-if OpenNebula.is_error?(rc)
+if ::OpenNebula.is_error?(rc)
   puts rc.message
   exit 1
 end
