@@ -4,21 +4,11 @@
 
 require 'opennebula'
 require 'yaml'
+require 'dyndnsd/opennebula/settings'
 
 include OpenNebula
 
-# OpenNebula credentials
-CREDENTIALS = '<<user>>:<<password>>'.freeze
-# XML_RPC endpoint where OpenNebula is listening
-ENDPOINT    = 'http://<<opennebula-server>>:2633/RPC2'.freeze
-# File where userconfig for dynds should be placed
-OUTFILE = '/etc/dyndnsd/users.conf'.freeze
-# Users to exclude from export (array of IDs)
-EXCLUDE = [].freeze
-# Domains to to be managed by users
-DOMAINS = [].freeze
-
-client = Client.new(CREDENTIALS, ENDPOINT)
+client = Client.new(Dyndnsd::Opennebula::Settings.credentials, Dyndnsd::Opennebula::Settings.endpoint)
 
 userpool = UserPool.new(client)
 
@@ -31,14 +21,14 @@ end
 users['users'] = {}
 
 userpool.each do |user|
-  next if EXCLUDE.include?(user['ID'].to_i)
+  next if Dyndnsd::Opennebula::Settings.exclude.include?(user['ID'].to_i)
   name = user['NAME']
   pass = user['TEMPLATE/TOKEN_PASSWORD']
-  domains = DOMAINS.map { |domain| "*.#{name}.#{domain}" }
+  domains = Dyndnsd::Opennebula::Settings.domains.map { |domain| "*.#{name}.#{domain}" }
   users['users'][name] = {
     'password' => pass,
     'hosts' => domains
   }
 end
 
-File.open(OUTFILE, 'w') { |file| file.write(users.to_yaml) }
+File.open(Dyndnsd::Opennebula::Settings.outfile, 'w') { |file| file.write(users.to_yaml) }

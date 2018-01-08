@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Mamut3D"]
   spec.email         = ["janca@ics.muni.cz"]
 
-  spec.summary       = "Export of tokens from OpenNebula for Dyndnsd config." 
-  spec.description   = "Export of tokens from OpenNebula for Dyndnsd config." 
+  spec.summary       = "Export of tokens from OpenNebula for Dyndnsd config."
+  spec.description   = "Export of tokens from OpenNebula for Dyndnsd config."
   spec.homepage      = "https://github.com/Mamut3D/dyndnsd-opennebula"
   spec.license       = "MIT"
 
@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.0"
-  
+
   spec.add_runtime_dependency "opennebula", "~> 5.4"
+  spec.add_runtime_dependency "settingslogic", "~> 2.0"
 end
