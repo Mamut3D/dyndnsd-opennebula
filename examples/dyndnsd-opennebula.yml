@@ -1,8 +1,8 @@
 dyndnsd-opennebula:
-  # OpenNebula credentials
-  credentials: '<<user>>:<<password>>'
-  # XML_RPC endpoint where OpenNebula is listening
-  endpoint: 'http://<<opennebula-server>>:2633/RPC2'
+  # OpenNebula credentials <<user>>:<<password>>
+  credentials: 'oneadmin:opennebula'
+  # XML_RPC endpoint where OpenNebula is listening http://<<opennebula-server>>:2633/RPC2
+  endpoint: 'http://localhost:2633/RPC2'
   # File where userconfig for dynds should be placed
   outfile: '/etc/dyndnsd-users.yaml'
   # Users to exclude from export (array of IDs)
