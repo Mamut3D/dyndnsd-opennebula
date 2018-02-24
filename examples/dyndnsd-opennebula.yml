@@ -7,5 +7,7 @@ dyndnsd-opennebula:
   outfile: '/etc/dyndnsd-users.yaml'
   # Users to exclude from export (array of IDs)
   exclude: []
+  # Allow to manage root of the user's name domain
+  root_name_domain: true
   # Domains to to be managed by users
   domains: []

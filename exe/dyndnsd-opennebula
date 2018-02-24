@@ -25,7 +25,16 @@ userpool.each do |user|
   next if Dyndnsd::Opennebula::Settings.exclude.include?(user['ID'].to_i)
   name = user['NAME']
   pass = user['TEMPLATE/TOKEN_PASSWORD']
-  domains = Dyndnsd::Opennebula::Settings.domains.map { |domain| "*.#{name}.#{domain}" }
+  domains = []
+  Dyndnsd::Opennebula::Settings.domains.each { |domain|
+    if (Dyndnsd::Opennebula::Settings.has_key? 'root_name_domain') &&
+       (Dyndnsd::Opennebula::Settings.root_name_domain == true)
+    then
+      domains << "#{name}.#{domain}"
+    end
+
+    domains << "*.#{name}.#{domain}"
+  }
   users['users'][name] = {
     'password' => pass,
     'hosts' => domains
